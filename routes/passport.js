@@ -5,9 +5,23 @@ var bCrypt = require('bcrypt-nodejs');
 
 module.exports = function(passport){
 
-	passport.use('login', new LocalStrategy(
+	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
+    passport.serializeUser(function(user, done) {
+        //console.log('serializing user:',user.username);
+        done(null, user._id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user) {
+            //console.log('deserializing user:',user.username);
+            done(err, user);
+        });
+    });
+
+
+	passport.use('login', new LocalStrategy({usernameField: 'email', passwordField: 'password'},
 		function(username, password, done) {
-			User.findOne({'username': username}, function(err, user){
+			User.findOne({'email': username}, function(err, user){
 				if (err){
 					return done(err);
 				}

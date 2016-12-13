@@ -7,7 +7,7 @@ module.exports = function(passport){
 
 	//success login
 	router.get('/success', function(req, res){
-		rres.send({state: 'success', user: req.user ? req.user : null});
+		res.send({state: 'success', user: req.user ? req.user : null});
 	});
 
 
@@ -23,8 +23,8 @@ module.exports = function(passport){
 
 	//authentication user #POST
 	router.post('/login', passport.authenticate('login', {
-		successRedirect: '/success',
-		failureRedirect: '/failure'
+		successRedirect: '/api/v1/auth/success',
+		failureRedirect: 'api/v1/auth/failure'
 	}));
 
 
