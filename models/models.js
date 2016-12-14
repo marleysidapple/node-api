@@ -4,7 +4,11 @@ var mongoose = require('mongoose');
 
 var taskSchema = new mongoose.Schema({
 	title: String,
-	isDone: Boolean
+	isDone: Boolean,
+	user: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	}]
 });
 
 
